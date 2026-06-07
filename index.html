@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Frontier Navigation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">人工精选 · 可解释来源索引</p>
+        <h1>AI Frontier Navigation</h1>
+      </div>
+      <div class="topbar__meta" aria-label="站点状态">
+        <span>静态 MVP</span>
+        <span>人工维护</span>
+        <span>无登录/评论</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="today-panel" aria-labelledby="today-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Today Brief</p>
+            <h2 id="today-title">今天值得看的 AI 前沿条目</h2>
+          </div>
+          <p class="section-note">优先展示可验证来源、清晰推荐理由和外部讨论入口。</p>
+        </div>
+        <div id="today-grid" class="today-grid"></div>
+      </section>
+
+      <section class="workbench" aria-label="AI 前沿导航工作台">
+        <aside class="filters" aria-label="筛选控件">
+          <div class="filter-head">
+            <div>
+              <p class="eyebrow">Filters</p>
+              <h2>筛选</h2>
+            </div>
+            <button id="reset-filters" class="ghost-button" type="button">重置</button>
+          </div>
+
+          <label class="search-box" for="search-input">
+            <span>搜索</span>
+            <input id="search-input" type="search" placeholder="标题、标签、推荐理由" autocomplete="off" />
+          </label>
+
+          <fieldset>
+            <legend>主题</legend>
+            <div id="topic-filters" class="segmented"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>类型</legend>
+            <div id="type-filters" class="segmented"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>可信度</legend>
+            <div id="trust-filters" class="segmented"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>更新频率</legend>
+            <div id="cadence-filters" class="segmented"></div>
+          </fieldset>
+        </aside>
+
+        <section class="list-panel" aria-labelledby="list-title">
+          <div class="list-toolbar">
+            <div>
+              <p class="eyebrow">Curated Index</p>
+              <h2 id="list-title">精选条目</h2>
+            </div>
+            <div class="result-count" id="result-count" aria-live="polite"></div>
+          </div>
+          <div id="source-list" class="source-list"></div>
+          <div id="empty-state" class="empty-state" hidden>
+            <h3>没有匹配的条目</h3>
+            <p>调整主题、类型或可信度条件，或清空搜索词后重新查看。</p>
+            <button class="primary-button" type="button" data-action="clear">清空筛选</button>
+          </div>
+        </section>
+
+        <aside class="detail-panel" aria-labelledby="detail-title">
+          <div id="detail-content"></div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
