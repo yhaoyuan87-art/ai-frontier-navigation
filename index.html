@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Frontier Navigation</title>
+    <meta
+      name="description"
+      content="面向中文 AI 学习者和前沿跟踪者的可信信息工作台，精选论文、项目、模型平台、社区讨论和高质量博客入口。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="app-header" id="top">
+        <nav class="topbar" aria-label="主导航">
+          <a class="brand" href="#top" aria-label="AI Frontier Navigation 首页">
+            <span class="brand-mark" aria-hidden="true">AF</span>
+            <span>
+              <strong>AI Frontier Navigation</strong>
+              <small>可信 AI 前沿导航</small>
+            </span>
+          </a>
+          <div class="topbar-links">
+            <a href="#today">今日精选</a>
+            <a href="#explorer">筛选工作台</a>
+            <a href="#rules">收录规则</a>
+          </div>
+        </nav>
+
+        <section class="overview" aria-labelledby="page-title">
+          <div class="overview-copy">
+            <p class="eyebrow">人工精选 · 可解释可信度 · 高密度扫描</p>
+            <h1 id="page-title">把分散的 AI 前沿入口整理成可判断的信息工作台</h1>
+            <p>
+              不做无限链接堆叠，也不伪装成实时新闻流。这里把论文库、会议、模型平台、开源项目、社区讨论和技术博客整理成结构化条目，明确说明为什么值得看、可信度来自哪里、适合谁阅读，以及下一步应该去哪个原始入口。
+            </p>
+            <div class="overview-strip" aria-label="工作台能力">
+              <span>原始来源优先</span>
+              <span>推荐理由可读</span>
+              <span>外部讨论可追溯</span>
+            </div>
+          </div>
+
+          <aside class="signal-board" aria-label="内容概览">
+            <div class="signal-head">
+              <span>Frontier Radar</span>
+              <strong>12 curated entries</strong>
+            </div>
+            <dl class="metric-grid">
+              <div>
+                <dt>覆盖类型</dt>
+                <dd>论文 · 项目 · 社区 · 博客</dd>
+              </div>
+              <div>
+                <dt>今日精选</dt>
+                <dd>7 条可快速巡检</dd>
+              </div>
+              <div>
+                <dt>可信标识</dt>
+                <dd>等级 + 收录理由</dd>
+              </div>
+              <div>
+                <dt>维护方式</dt>
+                <dd>人工精选，静态可运行</dd>
+              </div>
+            </dl>
+            <div class="overview-actions">
+              <a class="primary-action" href="#today">查看今日精选</a>
+              <button class="ghost-action" type="button" id="todayJump">只看今日条目</button>
+            </div>
+          </aside>
+        </section>
+      </header>
+
+      <main>
+        <section class="today-section" id="today" aria-labelledby="today-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Today</p>
+              <h2 id="today-title">今天值得看</h2>
+            </div>
+            <p>
+              先扫这些高价值入口，再按主题、来源类型、可信度、更新频率和标签缩小范围。每张卡片都保留判断依据，而不是只给一个外链。
+            </p>
+          </div>
+          <div class="today-grid" id="todayCards"></div>
+        </section>
+
+        <section class="workspace" id="explorer" aria-labelledby="explorer-title">
+          <div class="workspace-header">
+            <div>
+              <p class="section-kicker">Explorer</p>
+              <h2 id="explorer-title">筛选工作台</h2>
+            </div>
+            <div class="result-count" aria-live="polite">
+              <span id="resultCount">0</span>
+              <span>个匹配条目</span>
+            </div>
+          </div>
+
+          <div class="control-surface">
+            <div class="control-head">
+              <div>
+                <strong>用判断字段缩小范围</strong>
+                <p>组合搜索、主题、来源类型、可信度、更新频率和标签，快速排除噪声。</p>
+              </div>
+              <button type="button" class="reset-inline" id="resetFiltersTop">重置</button>
+            </div>
+            <label class="search-field" for="searchInput">
+              <span>搜索标题、主题、标签、推荐理由或可信度说明</span>
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="例如 LLM、benchmark、Agent、社区讨论"
+                autocomplete="off"
+              />
+            </label>
+
+            <div class="filter-columns">
+              <fieldset class="segmented-control" aria-label="按主题筛选">
+                <legend>主题</legend>
+                <div id="topicFilters"></div>
+              </fieldset>
+
+              <fieldset class="segmented-control" aria-label="按来源类型筛选">
+                <legend>来源类型</legend>
+                <div id="categoryFilters"></div>
+              </fieldset>
+            </div>
+
+            <div class="filter-row">
+              <label class="select-field" for="trustSelect">
+                <span>可信度</span>
+                <select id="trustSelect">
+                  <option value="all">全部可信度</option>
+                  <option value="high">高可信</option>
+                  <option value="medium">中等可信</option>
+                  <option value="emerging">新兴信号</option>
+                </select>
+              </label>
+
+              <label class="select-field" for="cadenceSelect">
+                <span>更新频率</span>
+                <select id="cadenceSelect">
+                  <option value="all">全部频率</option>
+                  <option value="daily">每日</option>
+                  <option value="weekly">每周</option>
+                  <option value="event-based">事件驱动</option>
+                  <option value="monthly">每月</option>
+                  <option value="irregular">不定期</option>
+                </select>
+              </label>
+
+              <label class="toggle-field" for="todayOnly">
+                <input id="todayOnly" type="checkbox" />
+                <span>只看今天值得看</span>
+              </label>
+            </div>
+
+            <div>
+              <p class="filter-label">标签</p>
+              <div class="tag-cloud" id="tagFilters" aria-label="按标签筛选"></div>
+            </div>
+          </div>
+
+          <div class="content-grid">
+            <section class="source-list" aria-label="精选条目列表">
+              <div id="emptyState" class="empty-state" hidden>
+                <strong>没有匹配的精选条目</strong>
+                <p>
+                  当前筛选组合过窄。可以清空条件，或改用更宽的主题、可信度和更新频率继续扫描。
+                </p>
+                <button type="button" id="resetFilters">清空筛选</button>
+              </div>
+              <div id="sourceCards" class="source-cards"></div>
+            </section>
+
+            <aside class="detail-panel" id="entryDetailPanel" aria-labelledby="detailTitle">
+              <div class="detail-head">
+                <p class="section-kicker">Detail</p>
+                <span class="detail-status">可解释收录</span>
+              </div>
+              <div class="detail-trust-line" id="detailTrustLine">等待选择条目</div>
+              <h3 id="detailTitle">选择一个条目查看判断依据</h3>
+              <p id="detailDescription" class="detail-description">
+                详情面板会展示推荐理由、可信度解释、适合人群、原始链接和外部讨论入口，帮助你判断是否值得继续阅读。
+              </p>
+              <dl class="detail-list">
+                <div>
+                  <dt>来源类型</dt>
+                  <dd id="detailType">-</dd>
+                </div>
+                <div>
+                  <dt>可信度</dt>
+                  <dd id="detailTrust">-</dd>
+                </div>
+                <div>
+                  <dt>更新频率</dt>
+                  <dd id="detailCadence">-</dd>
+                </div>
+                <div>
+                  <dt>适合人群</dt>
+                  <dd id="detailUseCase">-</dd>
+                </div>
+                <div class="detail-list-wide">
+                  <dt>主 URL</dt>
+                  <dd><a id="detailUrl" href="#" target="_blank" rel="noopener noreferrer">-</a></dd>
+                </div>
+                <div class="detail-list-wide">
+                  <dt>推荐理由</dt>
+                  <dd id="detailRecommendation">-</dd>
+                </div>
+                <div class="detail-list-wide">
+                  <dt>可信度解释</dt>
+                  <dd id="detailTrustReason">-</dd>
+                </div>
+                <div>
+                  <dt>收录 / 更新</dt>
+                  <dd id="detailDates">-</dd>
+                </div>
+              </dl>
+              <div>
+                <p class="detail-subtitle">主题与标签</p>
+                <div class="detail-tags" id="detailTags"></div>
+              </div>
+              <div>
+                <p class="detail-subtitle">外部讨论入口</p>
+                <div class="discussion-links" id="detailDiscussionLinks"></div>
+              </div>
+              <a class="detail-link" id="detailLink" href="#" target="_blank" rel="noopener noreferrer">打开原始入口</a>
+            </aside>
+          </div>
+        </section>
+
+        <section class="rules-section" id="rules" aria-labelledby="rules-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Curation Rules</p>
+              <h2 id="rules-title">收录规则</h2>
+            </div>
+            <p>
+              可信感来自清晰的收录标准：优先原始来源、明确推荐理由、解释可信度，谨慎对待转述和短期热度。
+            </p>
+          </div>
+          <div class="rules-grid">
+            <article>
+              <span>01</span>
+              <h3>原始来源优先</h3>
+              <p>优先收录论文页、官方会议页、作者仓库、模型卡、长期稳定技术博客和高质量讨论入口。</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>理由必须可读</h3>
+              <p>每个条目都要解释为什么值得看，避免只有标题、链接和模糊标签。</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>可信度可解释</h3>
+              <p>可信等级必须配合说明，区分正式来源、社区信号和仍需观察的新兴项目。</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>不制造虚假互动</h3>
+              <p>第一版只提供外部讨论入口，不展示站内评论、点赞、收藏或自动抓取的伪实时数据。</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
